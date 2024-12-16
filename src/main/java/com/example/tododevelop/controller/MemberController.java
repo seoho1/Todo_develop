@@ -5,7 +5,6 @@ import com.example.tododevelop.dto.MemberResponseDto;
 import com.example.tododevelop.dto.SignUpRequestDto;
 import com.example.tododevelop.dto.SignUpResponseDto;
 import com.example.tododevelop.dto.UpdateMemberRequestDto;
-import com.example.tododevelop.entity.Member;
 import com.example.tododevelop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -46,6 +45,15 @@ public class MemberController {
        MemberResponseDto memberResponseDto = memberService.updateMember(id, requestDto.getUsername(), requestDto.getEmail());
 
        return new ResponseEntity<>(memberResponseDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MemberResponseDto> deleteMember(
+            @PathVariable Long id
+    ) {
+        memberService.deleteById(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

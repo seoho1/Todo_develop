@@ -8,6 +8,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -38,6 +39,7 @@ public class MemberService {
 
     }
 
+    @Transactional
     public MemberResponseDto updateMember(Long id, String username, String email) {
         Member member = em.find(Member.class, id);
 
@@ -48,6 +50,12 @@ public class MemberService {
         member.update(username, email);
 
         return new MemberResponseDto(member.getUsername(), member.getEmail());
+
+    }
+
+    public void deleteById(Long id) {
+
+        memberRepository.deleteById(id);
 
     }
 }
