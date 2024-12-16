@@ -1,18 +1,19 @@
 package com.example.tododevelop.service;
 
+import com.example.tododevelop.config.PasswordEncoder;
 import com.example.tododevelop.dto.LoginResponseDto;
 import com.example.tododevelop.dto.MemberResponseDto;
 import com.example.tododevelop.dto.SignUpResponseDto;
 import com.example.tododevelop.entity.Member;
+import com.example.tododevelop.exception.InvalidPasswordException;
 import com.example.tododevelop.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.support.CustomSQLErrorCodesTranslation;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 
 @Service
@@ -21,13 +22,15 @@ public class MemberService {
 
     @PersistenceContext
     private EntityManager em;
-
+    private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
 
 
     public SignUpResponseDto signUp(String username, String password, String email){
 
-        Member member = new Member(username, password, email);
+        String encodedPassword = passwordEncoder.encode(password);
+
+        Member member = new Member(username, encodedPassword, email);
 
         Member savedMember = memberRepository.save(member);
 
@@ -39,7 +42,7 @@ public class MemberService {
 
         Member findMember = memberRepository.findMemberByIdOrElseThrow(id);
 
-        return new MemberResponseDto(findMember.getUsername(), findMember.getEmail());
+        return new MemberResponseDto(id, findMember.getUsername(), findMember.getEmail());
 
     }
 
@@ -53,7 +56,7 @@ public class MemberService {
 
         member.update(username, email);
 
-        return new MemberResponseDto(member.getUsername(), member.getEmail());
+        return new MemberResponseDto(id, member.getUsername(), member.getEmail());
 
     }
 
@@ -65,6 +68,10 @@ public class MemberService {
 
     public LoginResponseDto login(String email, String password) {
         Member findMember = memberRepository.findMemberByEmailOrElseThrow(email);
+
+        if(!passwordEncoder.matches(password, findMember.getPassword())){
+            throw new InvalidPasswordException("비밀번호가 일치하지 않습니다");
+        }
 
         return new LoginResponseDto(findMember.getUsername(), findMember.getEmail());
     }

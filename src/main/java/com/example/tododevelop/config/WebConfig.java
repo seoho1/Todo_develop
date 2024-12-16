@@ -3,7 +3,6 @@ package com.example.tododevelop.config;
 import com.example.tododevelop.filter.CustomFilter;
 import com.example.tododevelop.filter.LoginFilter;
 import jakarta.servlet.Filter;
-import org.hibernate.metamodel.mapping.FilterRestrictable;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,3 +37,5 @@ public class WebConfig {
 
     }
 }
+
+

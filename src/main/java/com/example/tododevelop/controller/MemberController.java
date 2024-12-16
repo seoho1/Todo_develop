@@ -58,7 +58,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(
+    public LoginResponseDto login(
             @RequestBody LoginRequestDto loginRequestDto,
             HttpServletRequest request,
             HttpServletResponse response ) {
@@ -75,6 +75,6 @@ public class MemberController {
         cookie.setMaxAge(240);
         response.addCookie(cookie);
 
-        return new ResponseEntity<>("로그인 성공",HttpStatus.OK);
+        return new LoginResponseDto(loginRequestDto.getEmail(), loginResponseDto.getUsername());
     }
 }
