@@ -41,4 +41,8 @@ public class Comment extends BaseEntity {
     public Comment(String comment) {
         this.comment = comment;
     }
+
+    public void update(String comment) {
+        this.comment = comment;
+    }
 }

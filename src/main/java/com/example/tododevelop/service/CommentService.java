@@ -7,8 +7,11 @@ import com.example.tododevelop.dto.schedule.CreateScheduleRequestDto;
 import com.example.tododevelop.entity.Comment;
 import com.example.tododevelop.repository.CommentRepository;
 import com.example.tododevelop.repository.ScheduleRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentService {
 
+    @PersistenceContext
+    private EntityManager em;
     private final CommentRepository commentRepository;
     private final ScheduleRepository scheduleRepository;
 
@@ -30,5 +35,18 @@ public class CommentService {
 
     public List<CommentResponseDto> findAll() {
         return commentRepository.findAll().stream().map(CommentResponseDto::toDto).toList();
+    }
+
+    @Transactional
+    public CommentResponseDto updateComment(Long id, String comment) {
+        Comment findedComment = em.find(Comment.class, id);
+
+        if(comment == null) {
+            throw new RuntimeException("Comment not found");
+        }
+
+        findedComment.update(comment);
+
+        return new CommentResponseDto(id, findedComment.getComment());
     }
 }
