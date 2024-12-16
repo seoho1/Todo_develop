@@ -1,8 +1,11 @@
 package com.example.tododevelop.controller;
 
 
+import com.example.tododevelop.dto.MemberResponseDto;
 import com.example.tododevelop.dto.SignUpRequestDto;
 import com.example.tododevelop.dto.SignUpResponseDto;
+import com.example.tododevelop.dto.UpdateMemberRequestDto;
+import com.example.tododevelop.entity.Member;
 import com.example.tododevelop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,4 +29,23 @@ public class MemberController {
         );
         return new ResponseEntity<>(signUpResponseDto, HttpStatus.CREATED);
     }
+
+   @GetMapping("/{id}")
+   public ResponseEntity<MemberResponseDto> findById(@PathVariable Long id){
+
+       MemberResponseDto memberResponseDto = memberService.findById(id);
+
+       return new ResponseEntity<>(memberResponseDto, HttpStatus.OK);
+   }
+
+   @PatchMapping("/{id}")
+    public ResponseEntity<MemberResponseDto> updateMember(
+            @PathVariable Long id,
+            @RequestBody UpdateMemberRequestDto requestDto
+   )  {
+       MemberResponseDto memberResponseDto = memberService.updateMember(id, requestDto.getUsername(), requestDto.getEmail());
+
+       return new ResponseEntity<>(memberResponseDto, HttpStatus.OK);
+    }
+
 }

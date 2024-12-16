@@ -1,15 +1,15 @@
 package com.example.tododevelop.dto;
 
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class MemberResponseDto {
+public class UpdateMemberRequestDto {
 
     private final String username;
 
     private final String email;
-
 
 }
