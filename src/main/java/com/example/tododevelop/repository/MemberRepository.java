@@ -22,4 +22,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
         return findMemberById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Dose not exist id" + id));
     }
 
+    Optional<Member> findMemberByEmail(String email);
+
+    default Member findMemberByEmailOrElseThrow(String email){
+        return findMemberByEmail(email).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Dose not exist email" + email));
+    }
+
 }

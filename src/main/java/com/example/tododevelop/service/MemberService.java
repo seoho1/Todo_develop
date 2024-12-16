@@ -1,5 +1,6 @@
 package com.example.tododevelop.service;
 
+import com.example.tododevelop.dto.LoginResponseDto;
 import com.example.tododevelop.dto.MemberResponseDto;
 import com.example.tododevelop.dto.SignUpResponseDto;
 import com.example.tododevelop.entity.Member;
@@ -7,8 +8,11 @@ import com.example.tododevelop.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.support.CustomSQLErrorCodesTranslation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 
 @Service
@@ -57,5 +61,11 @@ public class MemberService {
 
         memberRepository.deleteById(id);
 
+    }
+
+    public LoginResponseDto login(String email, String password) {
+        Member findMember = memberRepository.findMemberByEmailOrElseThrow(email);
+
+        return new LoginResponseDto(findMember.getUsername(), findMember.getEmail());
     }
 }

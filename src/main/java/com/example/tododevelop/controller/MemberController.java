@@ -1,11 +1,12 @@
 package com.example.tododevelop.controller;
 
 
-import com.example.tododevelop.dto.MemberResponseDto;
-import com.example.tododevelop.dto.SignUpRequestDto;
-import com.example.tododevelop.dto.SignUpResponseDto;
-import com.example.tododevelop.dto.UpdateMemberRequestDto;
+import com.example.tododevelop.dto.*;
 import com.example.tododevelop.service.MemberService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,4 +57,24 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> login(
+            @RequestBody LoginRequestDto loginRequestDto,
+            HttpServletRequest request,
+            HttpServletResponse response ) {
+
+        LoginResponseDto loginResponseDto = memberService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
+
+        //세션에 사용자 정보 저장
+        HttpSession session = request.getSession();
+        session.setAttribute("sessionKey",loginResponseDto);
+
+        //쿠키 생성
+        Cookie cookie = new Cookie("userEmail", loginResponseDto.getEmail());
+        cookie.setPath("/");
+        cookie.setMaxAge(240);
+        response.addCookie(cookie);
+
+        return new ResponseEntity<>("로그인 성공",HttpStatus.OK);
+    }
 }
