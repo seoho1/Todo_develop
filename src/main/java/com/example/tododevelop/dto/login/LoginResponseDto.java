@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class LoginResponseDto {
 
+    private final Long id;
+
     private final String email;
 
     private final String username;

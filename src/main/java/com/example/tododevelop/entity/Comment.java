@@ -45,4 +45,13 @@ public class Comment extends BaseEntity {
     public void update(String comment) {
         this.comment = comment;
     }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
 }

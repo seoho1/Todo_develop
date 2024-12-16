@@ -5,7 +5,10 @@ import com.example.tododevelop.dto.comments.CommentResponseDto;
 import com.example.tododevelop.dto.comments.CreateCommentRequestDto;
 import com.example.tododevelop.dto.schedule.CreateScheduleRequestDto;
 import com.example.tododevelop.entity.Comment;
+import com.example.tododevelop.entity.Member;
+import com.example.tododevelop.entity.Schedule;
 import com.example.tododevelop.repository.CommentRepository;
+import com.example.tododevelop.repository.MemberRepository;
 import com.example.tododevelop.repository.ScheduleRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -14,19 +17,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CommentService {
 
+    private final MemberRepository memberRepository;
     @PersistenceContext
     private EntityManager em;
     private final CommentRepository commentRepository;
     private final ScheduleRepository scheduleRepository;
 
-    public CommentResponseDto createComment(String comment) {
+    public CommentResponseDto createComment(Long scheduleId, Long memberId, String comment) {
+        Schedule schedule = scheduleRepository.findMemberByIdOrElseThrow(scheduleId);
+        Member member = memberRepository.findMemberByIdOrElseThrow(memberId);
 
         Comment createdComment = new Comment(comment);
+        createdComment.setMember(member);
+        createdComment.setSchedule(schedule);
 
         commentRepository.save(createdComment);
 

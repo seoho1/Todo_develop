@@ -71,6 +71,6 @@ public class MemberService {
             throw new InvalidPasswordException("비밀번호가 일치하지 않습니다");
         }
 
-        return new LoginResponseDto(findMember.getUsername(), findMember.getEmail());
+        return new LoginResponseDto(findMember.getId(), findMember.getUsername(), findMember.getEmail());
     }
 }

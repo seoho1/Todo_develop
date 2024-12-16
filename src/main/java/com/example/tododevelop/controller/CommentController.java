@@ -3,8 +3,9 @@ package com.example.tododevelop.controller;
 
 import com.example.tododevelop.dto.comments.CommentResponseDto;
 import com.example.tododevelop.dto.comments.CreateCommentRequestDto;
-import com.example.tododevelop.dto.schedule.CreateScheduleRequestDto;
+import com.example.tododevelop.entity.Member;
 import com.example.tododevelop.service.CommentService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,15 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/{scheduleId}/comments")
-    public ResponseEntity<CommentResponseDto> CreateComment(@RequestBody CreateCommentRequestDto requestDto) {
+    public ResponseEntity<CommentResponseDto> CreateComment(
+            @PathVariable Long scheduleId,
+            HttpSession session,
+            @RequestBody CreateCommentRequestDto requestDto) {
 
-        CommentResponseDto comment = commentService.createComment(requestDto.getComment());
+        Long sessionKey = (Long) session.getAttribute("sessionKey");
+
+
+        CommentResponseDto comment = commentService.createComment(scheduleId, sessionKey, requestDto.getComment());
 
         return new ResponseEntity<>(comment, HttpStatus.CREATED);
 

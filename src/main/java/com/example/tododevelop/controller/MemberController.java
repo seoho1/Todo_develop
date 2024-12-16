@@ -7,6 +7,7 @@ import com.example.tododevelop.dto.member.MemberResponseDto;
 import com.example.tododevelop.dto.member.UpdateMemberRequestDto;
 import com.example.tododevelop.dto.signup.SignUpRequestDto;
 import com.example.tododevelop.dto.signup.SignUpResponseDto;
+import com.example.tododevelop.entity.Member;
 import com.example.tododevelop.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -71,16 +72,16 @@ public class MemberController {
 
         LoginResponseDto loginResponseDto = memberService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
 
-        //세션에 사용자 정보 저장
-        HttpSession session = request.getSession();
-        session.setAttribute("sessionKey",loginResponseDto);
 
-        //쿠키 생성
+        HttpSession session = request.getSession();
+        session.setAttribute("sessionKey",loginResponseDto.getId());
+
+
         Cookie cookie = new Cookie("userEmail", loginResponseDto.getEmail());
         cookie.setPath("/");
         cookie.setMaxAge(240);
         response.addCookie(cookie);
 
-        return new LoginResponseDto(loginRequestDto.getEmail(), loginResponseDto.getUsername());
+        return new LoginResponseDto(loginResponseDto.getId(),loginRequestDto.getEmail(), loginResponseDto.getUsername());
     }
 }
