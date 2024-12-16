@@ -1,17 +1,15 @@
 package com.example.tododevelop.service;
 
 import com.example.tododevelop.config.PasswordEncoder;
-import com.example.tododevelop.dto.LoginResponseDto;
-import com.example.tododevelop.dto.MemberResponseDto;
-import com.example.tododevelop.dto.SignUpResponseDto;
+import com.example.tododevelop.dto.login.LoginResponseDto;
+import com.example.tododevelop.dto.member.MemberResponseDto;
+import com.example.tododevelop.dto.signup.SignUpResponseDto;
 import com.example.tododevelop.entity.Member;
 import com.example.tododevelop.exception.InvalidPasswordException;
 import com.example.tododevelop.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,12 +1,18 @@
 package com.example.tododevelop.controller;
 
 
-import com.example.tododevelop.dto.*;
+import com.example.tododevelop.dto.login.LoginRequestDto;
+import com.example.tododevelop.dto.login.LoginResponseDto;
+import com.example.tododevelop.dto.member.MemberResponseDto;
+import com.example.tododevelop.dto.member.UpdateMemberRequestDto;
+import com.example.tododevelop.dto.signup.SignUpRequestDto;
+import com.example.tododevelop.dto.signup.SignUpResponseDto;
 import com.example.tododevelop.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +26,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public ResponseEntity<SignUpResponseDto> signUp(@RequestBody SignUpRequestDto requestDto) {
+    public ResponseEntity<SignUpResponseDto> signUp(@Valid @RequestBody SignUpRequestDto requestDto) {
 
         SignUpResponseDto signUpResponseDto = memberService.signUp(
                 requestDto.getUsername(),
@@ -41,7 +47,7 @@ public class MemberController {
    @PatchMapping("/{id}")
     public ResponseEntity<MemberResponseDto> updateMember(
             @PathVariable Long id,
-            @RequestBody UpdateMemberRequestDto requestDto
+            @Valid @RequestBody UpdateMemberRequestDto requestDto
    )  {
        MemberResponseDto memberResponseDto = memberService.updateMember(id, requestDto.getUsername(), requestDto.getEmail());
 

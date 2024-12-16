@@ -1,7 +1,7 @@
 package com.example.tododevelop.service;
 
 
-import com.example.tododevelop.dto.ScheduleResponseDto;
+import com.example.tododevelop.dto.schedule.ScheduleResponseDto;
 import com.example.tododevelop.entity.Member;
 import com.example.tododevelop.entity.Schedule;
 import com.example.tododevelop.repository.MemberRepository;
@@ -36,7 +36,7 @@ public class ScheduleService {
 
         scheduleRepository.save(schedule);
 
-        return new ScheduleResponseDto(schedule.getId(), schedule.getTitle(), schedule.getContents());
+        return new ScheduleResponseDto(schedule.getId(), schedule.getTitle(), schedule.getContents(), schedule.getMember().getUsername());
 
     }
 
@@ -61,7 +61,9 @@ public class ScheduleService {
         return new ScheduleResponseDto(
                 schedule.getId(),
                 schedule.getTitle(),
-                schedule.getContents());
+                schedule.getContents(),
+                schedule.getMember().getUsername()
+        );
     }
     public void deleteSchedule(Long id) {
         scheduleRepository.deleteById(id);

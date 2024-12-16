@@ -1,4 +1,4 @@
-package com.example.tododevelop.dto;
+package com.example.tododevelop.dto.login;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

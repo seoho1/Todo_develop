@@ -1,10 +1,11 @@
 package com.example.tododevelop.controller;
 
 
-import com.example.tododevelop.dto.CreateScheduleRequestDto;
-import com.example.tododevelop.dto.ScheduleResponseDto;
-import com.example.tododevelop.dto.UpdateScheduleRequestDto;
+import com.example.tododevelop.dto.schedule.CreateScheduleRequestDto;
+import com.example.tododevelop.dto.schedule.ScheduleResponseDto;
+import com.example.tododevelop.dto.schedule.UpdateScheduleRequestDto;
 import com.example.tododevelop.service.ScheduleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> save(@RequestBody CreateScheduleRequestDto requestDto) {
+    public ResponseEntity<ScheduleResponseDto> save(@Valid @RequestBody CreateScheduleRequestDto requestDto) {
 
         ScheduleResponseDto schedule = scheduleService.createSchedule(
                 requestDto.getTitle(),
@@ -38,7 +39,7 @@ public class ScheduleController {
     @PatchMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> updateSchedule(
             @PathVariable Long id,
-            @RequestBody UpdateScheduleRequestDto requestDto
+            @Valid @RequestBody UpdateScheduleRequestDto requestDto
             )
     {
         ScheduleResponseDto scheduleResponseDto = scheduleService.updateSchedule(id, requestDto.getTitle(), requestDto.getContents());
