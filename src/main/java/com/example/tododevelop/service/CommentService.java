@@ -39,6 +39,7 @@ public class CommentService {
 
     @Transactional
     public CommentResponseDto updateComment(Long id, String comment) {
+
         Comment findedComment = em.find(Comment.class, id);
 
         if(comment == null) {
@@ -48,5 +49,9 @@ public class CommentService {
         findedComment.update(comment);
 
         return new CommentResponseDto(id, findedComment.getComment());
+    }
+
+    public void deleteComment(Long id) {
+        commentRepository.deleteById(id);
     }
 }
