@@ -8,10 +8,9 @@ import com.example.tododevelop.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/schedules")
@@ -27,6 +26,14 @@ public class CommentController {
 
         return new ResponseEntity<>(comment, HttpStatus.CREATED);
 
+    }
+
+    @GetMapping("/{scheduleId}/comments")
+    public ResponseEntity<List<CommentResponseDto>> findAllComment() {
+
+        List<CommentResponseDto>  commentResponseDtoList = commentService.findAll();
+
+        return new ResponseEntity<>(commentResponseDtoList, HttpStatus.OK);
     }
 
 }
