@@ -46,14 +46,6 @@ public class ScheduleService {
 
     }
 
-    public List<ScheduleResponseDto> findAll() {
-        return scheduleRepository
-                .findAll()
-                .stream()
-                .map(ScheduleResponseDto::toDto)
-                .toList();
-    }
-
     @Transactional
     public ScheduleResponseDto updateSchedule(Long id, String title, String contents) {
         Schedule schedule = em.find(Schedule.class, id);
@@ -75,7 +67,7 @@ public class ScheduleService {
         scheduleRepository.deleteById(id);
     }
 
-    @Transactional
+
     public Page<SchedulePageResponseDto> getAllSchedules(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("updatedAt").descending());
 

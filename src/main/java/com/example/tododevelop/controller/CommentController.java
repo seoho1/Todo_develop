@@ -28,7 +28,6 @@ public class CommentController {
 
         Long sessionKey = (Long) session.getAttribute("sessionKey");
 
-
         CommentResponseDto comment = commentService.createComment(scheduleId, sessionKey, requestDto.getComment());
 
         return new ResponseEntity<>(comment, HttpStatus.CREATED);
