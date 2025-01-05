@@ -1,12 +1,10 @@
 package com.example.tododevelop.repository;
 
 import com.example.tododevelop.entity.Member;
-import org.hibernate.sql.model.internal.OptionalTableUpdate;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 

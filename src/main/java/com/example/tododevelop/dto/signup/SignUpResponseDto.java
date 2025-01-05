@@ -1,6 +1,5 @@
 package com.example.tododevelop.dto.signup;
 
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

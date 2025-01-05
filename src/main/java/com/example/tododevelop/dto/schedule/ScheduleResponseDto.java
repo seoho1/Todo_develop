@@ -4,7 +4,6 @@ import com.example.tododevelop.entity.Schedule;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-
 @Getter
 @RequiredArgsConstructor
 public class ScheduleResponseDto {

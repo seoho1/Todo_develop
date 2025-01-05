@@ -3,7 +3,6 @@ package com.example.tododevelop.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 
