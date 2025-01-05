@@ -23,7 +23,13 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
 
-
+    /**
+     * 회원 가입
+     * @param username 사용자 이름
+     * @param password 비밀번호
+     * @param email e-mail
+     * @return 회원가입된 사용자 정보
+     */
     public SignUpResponseDto signUp(String username, String password, String email){
 
         String encodedPassword = passwordEncoder.encode(password);
@@ -36,6 +42,7 @@ public class MemberService {
 
     }
 
+    // id로 사용자 찾기
     public MemberResponseDto findById(Long id) {
 
         Member findMember = memberRepository.findMemberByIdOrElseThrow(id);
