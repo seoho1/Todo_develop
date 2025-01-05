@@ -8,10 +8,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UpdateScheduleRequestDto {
 
-    @NotBlank
+    @NotBlank(message = "제목은 필수 입력 값입니다.")
     private final String title;
 
-    @NotBlank
+    @NotBlank(message = "내용은 필수 입력 값입니다.")
     private final String contents;
 
 }
