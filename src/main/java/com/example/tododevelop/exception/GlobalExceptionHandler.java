@@ -68,7 +68,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<Map<String, Object>> handleInvalidPasswordException(
             InvalidPasswordException e) {
-        Map<String, Object> response = ErrorResponse.ofHandleInvalidPasswordException(e);
+        Map<String, Object> response = ErrorResponse.ofInvalidPasswordException(e);
+
+        log.error("[{}] {} : {}", e.getStackTrace()[0], HttpStatus.BAD_REQUEST, e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(InvalidRequestException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidRequestException(
+            InvalidRequestException e) {
+        Map<String, Object> response = ErrorResponse.ofInvalidRequestException(e);
 
         log.error("[{}] {} : {}", e.getStackTrace()[0], HttpStatus.BAD_REQUEST, e.getMessage());
 

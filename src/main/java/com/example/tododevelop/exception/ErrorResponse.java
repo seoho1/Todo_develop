@@ -58,7 +58,13 @@ public class ErrorResponse {
         return createErrorResponse(HttpStatus.BAD_REQUEST, errorMessage);
     }
 
-    public static Map<String, Object> ofHandleInvalidPasswordException(InvalidPasswordException e) {
+    public static Map<String, Object> ofInvalidPasswordException(InvalidPasswordException e) {
+        String errorMessage = e.getMessage();
+
+        return createErrorResponse(HttpStatus.BAD_REQUEST, errorMessage);
+    }
+
+    public static Map<String, Object> ofInvalidRequestException(InvalidRequestException e) {
         String errorMessage = e.getMessage();
 
         return createErrorResponse(HttpStatus.BAD_REQUEST, errorMessage);
