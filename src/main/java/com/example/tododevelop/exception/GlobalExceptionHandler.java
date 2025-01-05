@@ -1,5 +1,6 @@
 package com.example.tododevelop.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -39,5 +40,19 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+    /**
+     *  RequestParam Validation 예외 처리
+     * @param e ConstraintViolationException
+     * @return ErrorResponse
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, Object>> handleConstraintViolationException(ConstraintViolationException e){
+        Map<String, Object> response = ErrorResponse.ofConstraintViolationException(e);
+        log.info("[{}] {} : {}", e.getStackTrace()[0], HttpStatus.BAD_REQUEST, e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
 }
 

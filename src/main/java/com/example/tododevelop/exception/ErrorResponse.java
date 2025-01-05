@@ -1,5 +1,7 @@
 package com.example.tododevelop.exception;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,5 +47,14 @@ public class ErrorResponse {
 
         return createErrorResponse(HttpStatus.BAD_REQUEST, errorMessage);
 
+    }
+
+    public static Map<String, Object> ofConstraintViolationException(ConstraintViolationException e) {
+        String errorMessage = e.getConstraintViolations()
+                .stream()
+                .map(ConstraintViolation::getMessage)
+                .collect(Collectors.joining("\n"));
+
+        return createErrorResponse(HttpStatus.BAD_REQUEST, errorMessage);
     }
 }
