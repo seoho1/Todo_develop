@@ -5,6 +5,7 @@ import com.example.tododevelop.dto.schedule.SchedulePageResponseDto;
 import com.example.tododevelop.dto.schedule.ScheduleResponseDto;
 import com.example.tododevelop.entity.Member;
 import com.example.tododevelop.entity.Schedule;
+import com.example.tododevelop.exception.InvalidRequestException;
 import com.example.tododevelop.repository.MemberRepository;
 import com.example.tododevelop.repository.ScheduleRepository;
 import jakarta.persistence.EntityManager;
@@ -29,7 +30,6 @@ public class ScheduleService {
     private final MemberRepository memberRepository;
 
 
-
     public ScheduleResponseDto createSchedule(String title, String contents, String username) {
 
         Member findMember = memberRepository.findMemberByUsernameOrElseThrow(username);
@@ -39,7 +39,8 @@ public class ScheduleService {
 
         scheduleRepository.save(schedule);
 
-        return new ScheduleResponseDto(schedule.getId(), schedule.getTitle(), schedule.getContents(), schedule.getMember().getUsername());
+        return new ScheduleResponseDto(schedule.getId(), schedule.getTitle(),
+                schedule.getContents(), schedule.getMember().getUsername());
 
     }
 
@@ -47,7 +48,7 @@ public class ScheduleService {
     public ScheduleResponseDto updateSchedule(Long id, String title, String contents) {
         Schedule schedule = em.find(Schedule.class, id);
 
-        if(schedule == null) {
+        if (schedule == null) {
             throw new RuntimeException("schedule not found");
         }
 
@@ -60,7 +61,9 @@ public class ScheduleService {
                 schedule.getMember().getUsername()
         );
     }
+
     public void deleteSchedule(Long id) {
+        scheduleRepository.findById(id).orElseThrow(( )-> new InvalidRequestException("스케쥴이 존재하지 않습니다."));
         scheduleRepository.deleteById(id);
     }
 

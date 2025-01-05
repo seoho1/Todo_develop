@@ -6,6 +6,7 @@ import com.example.tododevelop.dto.member.MemberResponseDto;
 import com.example.tododevelop.dto.signup.SignUpResponseDto;
 import com.example.tododevelop.entity.Member;
 import com.example.tododevelop.exception.InvalidPasswordException;
+import com.example.tododevelop.exception.InvalidRequestException;
 import com.example.tododevelop.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -66,7 +67,7 @@ public class MemberService {
     }
 
     public void deleteById(Long id) {
-
+        memberRepository.findMemberById(id).orElseThrow(()-> new InvalidRequestException("사용자가 존재하지 않습니다."));
         memberRepository.deleteById(id);
 
     }

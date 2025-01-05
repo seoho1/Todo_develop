@@ -5,6 +5,7 @@ import com.example.tododevelop.dto.comments.CommentResponseDto;
 import com.example.tododevelop.entity.Comment;
 import com.example.tododevelop.entity.Member;
 import com.example.tododevelop.entity.Schedule;
+import com.example.tododevelop.exception.InvalidRequestException;
 import com.example.tododevelop.repository.CommentRepository;
 import com.example.tododevelop.repository.MemberRepository;
 import com.example.tododevelop.repository.ScheduleRepository;
@@ -57,6 +58,7 @@ public class CommentService {
     }
 
     public void deleteComment(Long id) {
+        commentRepository.findById(id).orElseThrow(()-> new InvalidRequestException("댓글이 존재하지 않습니다."));
         commentRepository.deleteById(id);
     }
 }
