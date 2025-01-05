@@ -57,4 +57,10 @@ public class ErrorResponse {
 
         return createErrorResponse(HttpStatus.BAD_REQUEST, errorMessage);
     }
+
+    public static Map<String, Object> ofHandleInvalidPasswordException(InvalidPasswordException e) {
+        String errorMessage = e.getMessage();
+
+        return createErrorResponse(HttpStatus.BAD_REQUEST, errorMessage);
+    }
 }

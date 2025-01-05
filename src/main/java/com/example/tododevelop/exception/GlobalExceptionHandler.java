@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     /**
-     *  CustomException 예외 처리
+     * CustomException 예외 처리
+     *
      * @param e CustomException
      * @return ErrorResponse
      */
@@ -29,12 +30,14 @@ public class GlobalExceptionHandler {
 
     /**
      * RequestBody Validation 예외 처리
+     *
      * @param e MethodArgumentNotValidException
      * @return ErrorResponse
      */
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String,Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+    public ResponseEntity<Map<String, Object>> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException e) {
         Map<String, Object> response = ErrorResponse.ofMethodArgumentNotValidException(e);
         log.info("[{}] {} : {}", e.getStackTrace()[0], HttpStatus.BAD_REQUEST, e.getMessage());
 
@@ -42,17 +45,34 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     *  RequestParam Validation 예외 처리
+     * RequestParam Validation 예외 처리
+     *
      * @param e ConstraintViolationException
      * @return ErrorResponse
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, Object>> handleConstraintViolationException(ConstraintViolationException e){
+    public ResponseEntity<Map<String, Object>> handleConstraintViolationException(
+            ConstraintViolationException e) {
         Map<String, Object> response = ErrorResponse.ofConstraintViolationException(e);
         log.info("[{}] {} : {}", e.getStackTrace()[0], HttpStatus.BAD_REQUEST, e.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    /**
+     * InvalidPasswordException 예외 처리
+     *
+     * @param e InvalidPasswordException
+     * @return ErrorResponse
+     */
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidPasswordException(
+            InvalidPasswordException e) {
+        Map<String, Object> response = ErrorResponse.ofHandleInvalidPasswordException(e);
+
+        log.error("[{}] {} : {}", e.getStackTrace()[0], HttpStatus.BAD_REQUEST, e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 }
 
