@@ -2,8 +2,11 @@ package com.example.tododevelop.exception;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.Getter;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @Getter
 public class ErrorResponse {
@@ -32,5 +35,15 @@ public class ErrorResponse {
         response.put("message", errorMessage);
 
         return response;
+    }
+
+    public static Map<String, Object> ofMethodArgumentNotValidException(
+            MethodArgumentNotValidException e) {
+        String errorMessage = e.getBindingResult().getFieldErrors()
+                .stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining("\n"));
+
+        return createErrorResponse(HttpStatus.BAD_REQUEST, errorMessage);
+
     }
 }
